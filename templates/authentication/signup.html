@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <style>
+        .container{
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2{
+            text-align: center;
+        }
+
+        form{
+            display: flex;
+            flex-direction: column;
+            margin-left: 30%;
+        }
+        
+        form input{
+            width: 50%;
+            margin-bottom: 8px;
+            margin-top: 8px;
+            padding: 7px;
+        }
+
+        form select{
+            width: 52%;
+            padding: 7px;
+            margin-bottom: 8px;
+            margin-top: 8px;
+        }
+
+        form button{
+            width: 30%;
+            padding: 7px;
+            margin-bottom: 8px;
+            margin-top: 8px;
+            margin-left: 100px;
+            background-color: rgb(0, 59, 208);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+        }
+
+        form button:hover{
+            background-color: rgb(33, 175, 232);
+            color: black;
+        }
+
+        form a{
+            border: 2px solid black;
+            width: 25%;
+            text-align: center;
+            margin-left: 120px;
+            margin-top: 5px;
+            text-decoration: none;
+            padding: 4px;
+            color: rgb(0, 59, 208);
+        }
+
+        form a:hover {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    {% for message in messsages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
+    <div class="container">
+
+        <h2>Sign up</h2>
+    
+    <form action="/signup" method="post">
+        {% csrf_token %}
+
+        <label for="">Type of user</label>
+        <select name="typeOfUser" id="typeOfUser" required>
+            <option value="--Select your role--" selected>-- Select your role --</option>
+            <option value="doctor">Doctor</option>
+            <option value="patient">Patient</option>
+        </select>
+
+        <label for="">First Name</label>
+        <input type="text" id="fname" name="fname" placeholder="Enter your first name" required>
+
+        <label for="">Last Name</label>
+        <input type="text" id="lname" name="lname" placeholder="Enter your last name" required>
+
+        <label for="">Profile Picture</label>
+        <input type="file" id="profilePicture" name="profilePicture" onchange="readURL(this)" accept="Image/*" placeholder="Upload your profile Picture" required>
+
+        <label for="">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter an username" required>
+
+        <label for="">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+
+        <label for="">Password</label>
+        <input type="password" id="pass1" name="pass1" placeholder="Enter a password" required>
+
+        <label for="">Confirm Password</label>
+        <input type="password" id="pass2" name="pass2" placeholder="Confirm the password" required>
+
+        <label for="">Address</label>
+        <input type="text" id="address" name="address" placeholder="Enter address line 1" required>
+        <input type="text" id="address" name="address" placeholder="Enter city name" required>
+        <input type="text" id="address" name="address" placeholder="Enter state name" required>
+        <input type="text" id="address" name="address" placeholder="Enter pincode" required>
+
+        <button type="submit">Create Account</button>
+
+        <a href="/signin">Already have an account? Sign in.</a>
+
+    </form>
+
+    </div>
+    
+    <script>
+        function checkPassword() {
+            let password = document.getElementById("pass1").value;
+            let cnfrmPassword = document.getElementById("pass2").value;
+            console.log(password,cnfrmPassword);
+            let message = document.getElementById("message");
+
+            if(password.length != 0){
+                if (password == cnfrmPassword){
+                    message.textContent = "Passwords match";
+                    message.style.backgroundColor = "#3ae374";
+                }
+                else{
+                    message.textContent = "Passwords don't match";
+                    message.style.backgroundColor = "#ff4d4d";
+                }
+            }
+            else{
+                alert("Fields cant be empty")
+                message.textContent = "";
+            } 
+        }
+    </script>
+</body>
+</html>
